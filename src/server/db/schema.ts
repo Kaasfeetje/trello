@@ -54,10 +54,6 @@ export const users = createTable("user", {
   image: varchar("image", { length: 255 }),
 });
 
-export const usersRelations = relations(users, ({ many }) => ({
-  accounts: many(accounts),
-}));
-
 export const accounts = createTable(
   "account",
   {
@@ -129,6 +125,11 @@ export const verificationTokens = createTable(
   }),
 );
 
+export const usersRelations = relations(users, ({ many }) => ({
+  accounts: many(accounts),
+  // Mine
+}));
+
 // ===========================MY PROJECT=========================== \\
 export const boards = createTable("board", {
   id: varchar("id", { length: 255 })
@@ -138,6 +139,10 @@ export const boards = createTable("board", {
   title: text("title").notNull(),
 });
 
+export const boardsRelations = relations(boards, ({ many }) => ({
+  lists: many(lists),
+}));
+
 export type Board = typeof boards.$inferSelect;
 
 export const lists = createTable("list", {
@@ -146,7 +151,18 @@ export const lists = createTable("list", {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   title: text("title").notNull(),
+  boardId: varchar("boardId", { length: 255 }).notNull(),
 });
+
+export const listsRelations = relations(lists, ({ one, many }) => ({
+  board: one(boards, {
+    fields: [lists.boardId],
+    references: [boards.id],
+  }),
+  cards: many(cards),
+}));
+
+export type List = typeof lists.$inferSelect;
 
 export const cards = createTable("card", {
   id: varchar("id", { length: 255 })
@@ -154,8 +170,19 @@ export const cards = createTable("card", {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   title: text("title").notNull(),
-  description: text("description"),
-  authorId: varchar("user_id", { length: 255 })
-    .notNull()
-    .references(() => users.id),
+  boardId: varchar("boardId", { length: 255 }).notNull(),
+  listId: varchar("listId", { length: 255 }).notNull(),
 });
+
+export const cardsRelations = relations(cards, ({ one }) => ({
+  board: one(boards, {
+    fields: [cards.boardId],
+    references: [boards.id],
+  }),
+  list: one(lists, {
+    fields: [cards.listId],
+    references: [lists.id],
+  }),
+}));
+
+export type Card = typeof cards.$inferSelect;

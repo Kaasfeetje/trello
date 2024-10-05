@@ -13,11 +13,11 @@ const BoardPage = async ({ params }: Props) => {
   }
   return (
     <HydrateClient>
-      <main>
-        <header>
+      <main className="h-screen max-h-[calc(100vh-48px)]">
+        <header className="h-[48px]">
           <h1>{board.title}</h1>
         </header>
-        <Board />
+        <Board board={board} />
       </main>
     </HydrateClient>
   );
