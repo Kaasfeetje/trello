@@ -9,7 +9,7 @@ type Props = {
 };
 
 const CreateListForm = ({ board }: Props) => {
-  const createListMutation = useCreateList(board.id);
+  const createListMutation = useCreateList({ boardId: board.id });
 
   const [title, setTitle] = useState("");
 

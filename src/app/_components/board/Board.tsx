@@ -10,7 +10,9 @@ type Props = {
 };
 
 const Board = ({ board }: Props) => {
-  const [lists, listsQuery] = api.list.getAll.useSuspenseQuery(board.id);
+  const [lists, listsQuery] = api.list.getAll.useSuspenseQuery({
+    boardId: board.id,
+  });
 
   return (
     <div className="flex h-full gap-2 overflow-x-auto">

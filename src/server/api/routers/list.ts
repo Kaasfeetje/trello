@@ -5,10 +5,10 @@ import { eq } from "drizzle-orm";
 
 export const listRouter = createTRPCRouter({
   getAll: publicProcedure
-    .input(z.string().min(1))
+    .input(z.object({ boardId: z.string().min(1) }))
     .query(async ({ ctx, input }) => {
       return await ctx.db.query.lists.findMany({
-        where: (list, { eq }) => eq(list.boardId, input),
+        where: (list, { eq }) => eq(list.boardId, input.boardId),
       });
     }),
   create: publicProcedure
@@ -20,8 +20,8 @@ export const listRouter = createTRPCRouter({
     }),
   // Update
   delete: publicProcedure
-    .input(z.string().min(1))
+    .input(z.object({ listId: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {
-      await ctx.db.delete(lists).where(eq(lists.id, input));
+      await ctx.db.delete(lists).where(eq(lists.id, input.listId));
     }),
 });

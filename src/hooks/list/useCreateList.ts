@@ -1,6 +1,6 @@
 import { api } from "~/trpc/react";
 
-const useCreateList = (boardId: string) => {
+const useCreateList = (board: { boardId: string }) => {
   const utils = api.useUtils();
   return api.list.create.useMutation({
     onMutate: async (list) => {
@@ -8,21 +8,21 @@ const useCreateList = (boardId: string) => {
       await utils.list.getAll.cancel();
       const previousLists = utils.list.getAll.getData();
 
-      utils.list.getAll.setData(boardId, (oldQueryData) => [
+      utils.list.getAll.setData(board, (oldQueryData) => [
         ...(oldQueryData ?? []),
         {
           id: "asdfadsf",
           title: list.title,
-          boardId: boardId,
+          boardId: board.boardId,
         },
       ]);
       return { previousBoards: previousLists };
     },
     onError: (err, _newTodo, context) => {
-      utils.list.getAll.setData(boardId, context?.previousBoards);
+      utils.list.getAll.setData(board, context?.previousBoards);
     },
     onSettled: () => {
-      void utils.list.getAll.invalidate(boardId);
+      void utils.list.getAll.invalidate(board);
     },
   });
 };

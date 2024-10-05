@@ -9,9 +9,9 @@ type Props = {
 };
 
 const List = ({ list, boardId }: Props) => {
-  const deleteListMutation = useDeleteList(boardId);
+  const deleteListMutation = useDeleteList({ boardId });
   const deleteList = async () => {
-    await deleteListMutation.mutateAsync(list.id);
+    await deleteListMutation.mutateAsync({ listId: list.id });
   };
 
   return (
