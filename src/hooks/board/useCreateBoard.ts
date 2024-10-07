@@ -17,7 +17,7 @@ const useCreateBoard = () => {
       ]);
       return { previousBoards };
     },
-    onError: (err, _newTodo, context) => {
+    onError: (err, _newBoard, context) => {
       utils.board.getAll.setData(undefined, context?.previousBoards);
     },
     onSettled: () => {

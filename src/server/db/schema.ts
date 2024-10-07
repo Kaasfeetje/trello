@@ -1,5 +1,6 @@
 import { relations, sql } from "drizzle-orm";
 import {
+  foreignKey,
   index,
   integer,
   pgTableCreator,
@@ -151,7 +152,9 @@ export const lists = createTable("list", {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   title: text("title").notNull(),
-  boardId: varchar("boardId", { length: 255 }).notNull(),
+  boardId: varchar("boardId", { length: 255 })
+    .references(() => boards.id, { onDelete: "cascade" })
+    .notNull(),
 });
 
 export const listsRelations = relations(lists, ({ one, many }) => ({
@@ -170,8 +173,12 @@ export const cards = createTable("card", {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   title: text("title").notNull(),
-  boardId: varchar("boardId", { length: 255 }).notNull(),
-  listId: varchar("listId", { length: 255 }).notNull(),
+  boardId: varchar("boardId", { length: 255 })
+    .references(() => boards.id, { onDelete: "cascade" })
+    .notNull(),
+  listId: varchar("listId", { length: 255 })
+    .references(() => lists.id, { onDelete: "cascade" })
+    .notNull(),
 });
 
 export const cardsRelations = relations(cards, ({ one }) => ({

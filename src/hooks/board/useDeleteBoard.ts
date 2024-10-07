@@ -13,7 +13,7 @@ const useDeleteBoard = () => {
       );
       return { previousBoards };
     },
-    onError: (err, _newBoardId, context) => {
+    onError: (err, _newBoard, context) => {
       utils.board.getAll.setData(undefined, context?.previousBoards);
     },
     onSettled: () => {

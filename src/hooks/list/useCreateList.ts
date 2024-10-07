@@ -5,8 +5,8 @@ const useCreateList = (board: { boardId: string }) => {
   return api.list.create.useMutation({
     onMutate: async (list) => {
       // Optimistic update
-      await utils.list.getAll.cancel();
-      const previousLists = utils.list.getAll.getData();
+      await utils.list.getAll.cancel(board);
+      const previousLists = utils.list.getAll.getData(board);
 
       utils.list.getAll.setData(board, (oldQueryData) => [
         ...(oldQueryData ?? []),
@@ -18,7 +18,7 @@ const useCreateList = (board: { boardId: string }) => {
       ]);
       return { previousBoards: previousLists };
     },
-    onError: (err, _newTodo, context) => {
+    onError: (err, _newList, context) => {
       utils.list.getAll.setData(board, context?.previousBoards);
     },
     onSettled: () => {
