@@ -15,7 +15,7 @@ const Board = ({ board }: Props) => {
   });
 
   return (
-    <div className="flex h-full gap-2 overflow-x-auto">
+    <div className="flex h-full gap-2 overflow-x-auto px-2">
       <>
         {lists.map((list) => (
           <List key={list.id} list={list} boardId={board.id} />

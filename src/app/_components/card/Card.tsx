@@ -13,7 +13,7 @@ const Card = ({ card }: Props) => {
   };
 
   return (
-    <div className="flex w-full justify-between">
+    <div className="flex w-full cursor-pointer justify-between rounded-lg border-2 border-gray-800 bg-gray-800 px-3 py-2 hover:border-white">
       <span>{card.title}</span>
       <button onClick={deleteCard}>x</button>
     </div>

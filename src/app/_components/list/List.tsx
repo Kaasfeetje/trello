@@ -22,12 +22,12 @@ const List = ({ list, boardId }: Props) => {
   };
 
   return (
-    <div className="h-fit flex-shrink-0 bg-black px-2 text-gray-100">
-      <div className="flex w-[272px] justify-between">
-        <span>{list.title}</span>
+    <div className="h-fit w-[272px] flex-shrink-0 rounded-xl bg-black px-2 py-2 text-gray-300">
+      <div className="flex justify-between px-3 py-1.5">
+        <span className="font-bold">{list.title}</span>
         <button onClick={deleteList}>X</button>
       </div>
-      <div>
+      <div className="flex flex-col gap-2">
         <>
           {cards.map((card) => (
             <Card key={card.id} card={card} />
