@@ -5,6 +5,7 @@ import { List as ListType } from "~/server/db/schema";
 import CreateCardForm from "../card/forms/CreateCardForm";
 import { api } from "~/trpc/react";
 import Card from "../card/Card";
+import ListContainer from "./ListContainer";
 
 type Props = {
   list: ListType;
@@ -22,12 +23,12 @@ const List = ({ list, boardId }: Props) => {
   };
 
   return (
-    <div className="h-fit w-[272px] flex-shrink-0 rounded-xl bg-black px-2 py-2 text-gray-300">
+    <ListContainer padding>
       <div className="flex justify-between px-3 py-1.5">
         <span className="font-bold">{list.title}</span>
         <button onClick={deleteList}>X</button>
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex w-full flex-col gap-2">
         <>
           {cards.map((card) => (
             <Card key={card.id} card={card} />
@@ -35,7 +36,7 @@ const List = ({ list, boardId }: Props) => {
         </>
         <CreateCardForm boardId={boardId} listId={list.id} />
       </div>
-    </div>
+    </ListContainer>
   );
 };
 

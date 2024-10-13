@@ -16,10 +16,10 @@ const useCreateList = (board: { boardId: string }) => {
           boardId: board.boardId,
         },
       ]);
-      return { previousBoards: previousLists };
+      return { previousLists };
     },
     onError: (err, _newList, context) => {
-      utils.list.getAll.setData(board, context?.previousBoards);
+      utils.list.getAll.setData(board, context?.previousLists);
     },
     onSettled: () => {
       void utils.list.getAll.invalidate(board);

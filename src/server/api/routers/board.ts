@@ -21,7 +21,14 @@ export const boardRouter = createTRPCRouter({
         title: input.title,
       });
     }),
-  // Update
+  update: publicProcedure
+    .input(z.object({ id: z.string().min(1), title: z.string().min(1) }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db
+        .update(boards)
+        .set({ title: input.title })
+        .where(eq(boards.id, input.id));
+    }),
   delete: publicProcedure
     .input(z.string().min(1))
     .mutation(async ({ ctx, input }) => {
