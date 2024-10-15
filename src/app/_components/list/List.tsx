@@ -6,6 +6,7 @@ import CreateCardForm from "../card/forms/CreateCardForm";
 import { api } from "~/trpc/react";
 import Card from "../card/Card";
 import ListContainer from "./ListContainer";
+import ListTitle from "./ListTitle";
 
 type Props = {
   list: ListType;
@@ -25,7 +26,8 @@ const List = ({ list, boardId }: Props) => {
   return (
     <ListContainer padding>
       <div className="flex justify-between px-3 py-1.5">
-        <span className="font-bold">{list.title}</span>
+        {/* <span className="font-bold">{list.title}</span> */}
+        <ListTitle list={list} />
         <button onClick={deleteList}>X</button>
       </div>
       <div className="flex w-full flex-col gap-2">

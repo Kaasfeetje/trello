@@ -18,7 +18,14 @@ export const listRouter = createTRPCRouter({
         .insert(lists)
         .values({ title: input.title, boardId: input.boardId });
     }),
-  // Update
+  update: publicProcedure
+    .input(z.object({ id: z.string().min(1), title: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      await ctx.db
+        .update(lists)
+        .set({ title: input.title })
+        .where(eq(lists.id, input.id));
+    }),
   delete: publicProcedure
     .input(z.object({ listId: z.string().min(1) }))
     .mutation(async ({ ctx, input }) => {

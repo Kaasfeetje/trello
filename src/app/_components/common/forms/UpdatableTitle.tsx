@@ -26,7 +26,10 @@ const UpdatableTitle = ({ children, title, onSubmit }: Props) => {
   };
 
   const update = () => {
-    if (title == _title) return;
+    if (title == _title) {
+      setIsOpen(false);
+      return;
+    }
     onSubmit(_title);
   };
 
